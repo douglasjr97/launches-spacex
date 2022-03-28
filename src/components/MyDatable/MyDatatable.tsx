@@ -213,14 +213,9 @@ const MyDatable: React.FC<LaunchProps> = ({
       <DataTable
         style={{
           marginTop: "70px",
-          // zIndex:2000
         }}
         ref={dt}
         value={releases}
-        // selection={this.state.selectedProducts}
-        // onSelectionChange={
-        // 	(e) => this.setState({selectedProducts:e.value})
-        // }
         dataKey="id"
         paginator
         rows={4}
@@ -240,11 +235,8 @@ const MyDatable: React.FC<LaunchProps> = ({
         breakpoint="550px"
         stripedRows
         sortMode="multiple"
-        // showGridlines
-        // scrollable
         scrollable
         scrollHeight="flex"
-        // loading={loaded}
       >
         {columns.map((column: any) => (
           <Column field={column.value} header={column.name}></Column>

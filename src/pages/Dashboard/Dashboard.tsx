@@ -5,7 +5,7 @@ import api from '../../services/api';
 
 import MyDatatable, { Launch } from '../../components/MyDatatable/MyDatatable';
 import Favorites from '../../components/Favorites/Favorites';
-import LoadingSpinner from '../../components/LoadingSpinner';
+import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 const Dashboard: React.FC = () => {
   const [launches, setLaunches] = useState<Launch[]>([]);
   const [isLoading, setIsLoading] = useState(false);

@@ -1,5 +1,5 @@
 import { render, screen, waitFor } from '@testing-library/react';
-import Dashboard from '.';
+import Dashboard from './Dashboard';
 import api from '../../services/api';
 import { LAUNCHES_MOCK } from '../../test/mocks/launches';
 

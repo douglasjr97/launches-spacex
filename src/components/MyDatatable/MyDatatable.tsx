@@ -1,14 +1,13 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef } from 'react';
 
-import { DataTable } from "primereact/datatable";
+import { DataTable, DataTableProps } from 'primereact/datatable';
 
-import { MultiSelect } from "primereact/multiselect";
-import { Column } from "primereact/column";
-import { isAfter, isBefore } from "date-fns";
-import { Button } from "primereact/button";
-import { Calendar } from "primereact/calendar";
-
-import Swal from "sweetalert2";
+import { MultiSelect } from 'primereact/multiselect';
+import { Column } from 'primereact/column';
+import { isAfter, isBefore } from 'date-fns';
+import { Button } from 'primereact/button';
+import { Calendar } from 'primereact/calendar';
+import Swal from 'sweetalert2';
 interface Rocket {
   rocket_id: string;
   rocket_name: string;
@@ -28,24 +27,22 @@ export interface Launch {
   };
 }
 
-interface LaunchProps {
+interface LaunchProps extends DataTableProps {
   releases: Launch[];
   lastSave: Launch[];
   setReleases: (release: Launch[]) => void;
   setFavorites: (release: Launch[]) => void;
   isSearch: boolean;
-  loaded: boolean;
   columns: any;
-  rows: any;
 }
 const MyDatable: React.FC<LaunchProps> = ({
   releases,
   setReleases,
   lastSave,
-  loaded,
   isSearch,
   columns,
   setFavorites,
+  ...rest
 }: LaunchProps) => {
   const dt = useRef(null);
 
@@ -57,30 +54,30 @@ const MyDatable: React.FC<LaunchProps> = ({
   const FilterData = (event: any) => {
     // Filtro por lançamento bem sucedido ou mal sucedido
     if (selectedFilterMission[0]) {
-      console.log("Filtro por missão");
+      console.log('Filtro por missão');
       console.log(selectedFilterMission);
       switch (selectedFilterMission[0].code) {
         case 1:
           console.log(releases[0].launch_success);
           const releaseSuccess = releases.filter(
-            (launch) => launch.launch_success === "Success"
+            launch => launch.launch_success === 'Success',
           );
           setReleases(releaseSuccess);
           break;
         case 2:
           const releaseUnSuccess = releases.filter(
-            (launch) => launch.launch_success === "Fail"
+            launch => launch.launch_success === 'Fail',
           );
           setReleases(releaseUnSuccess);
           break;
       }
     } else {
-      console.log("Filtro por missão descartado");
+      console.log('Filtro por missão descartado');
 
       if (selectDateRange[0] && selectDateRange[1]) {
-        console.log("Filtro por data");
+        console.log('Filtro por data');
         const releasesInInterval: Launch[] = [];
-        releases.map((launch) => {
+        releases.map(launch => {
           console.log(selectDateRange[0]);
           console.log(selectDateRange[1]);
           if (
@@ -94,16 +91,16 @@ const MyDatable: React.FC<LaunchProps> = ({
 
         setReleases(releasesInInterval);
       } else {
-        console.log("Filtro por data descartado");
+        console.log('Filtro por data descartado');
         //Filtro por Lançamento proximo ou passado
         if (selectedFilterLatest[0]) {
-          console.log("Filtro por proximo");
+          console.log('Filtro por proximo');
           const currentDate = new Date();
 
           switch (selectedFilterLatest[0].code) {
             case 1:
               const afterReleases: Launch[] = [];
-              releases.map((launch) => {
+              releases.map(launch => {
                 if (isAfter(currentDate, new Date(launch.launch_date_local))) {
                   afterReleases.push(launch);
                 }
@@ -116,7 +113,7 @@ const MyDatable: React.FC<LaunchProps> = ({
 
             case 2:
               const beforeReleases: Launch[] = [];
-              releases.map((launch) => {
+              releases.map(launch => {
                 if (isBefore(currentDate, new Date(launch.launch_date_local))) {
                   afterReleases.push(launch);
                 }
@@ -127,7 +124,7 @@ const MyDatable: React.FC<LaunchProps> = ({
               break;
           }
         } else {
-          console.log("Filtro por lançamento descartado");
+          console.log('Filtro por lançamento descartado');
         }
       }
     }
@@ -135,20 +132,20 @@ const MyDatable: React.FC<LaunchProps> = ({
 
   const header = () => {
     const options1 = [
-      { name: "Upcoming", code: 2 },
-      { name: "Past", code: 1 },
+      { name: 'Upcoming', code: 2 },
+      { name: 'Past', code: 1 },
     ];
 
     const options2 = [
-      { name: "Success", code: 1 },
-      { name: "Failed", code: 2 },
+      { name: 'Success', code: 1 },
+      { name: 'Fail', code: 2 },
     ];
     return (
       <div
         style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
         }}
       >
         <div>
@@ -166,7 +163,7 @@ const MyDatable: React.FC<LaunchProps> = ({
             optionLabel="name"
             placeholder="Success/Fail"
             showSelectAll
-            onChange={(e) => setSelectedFilterMission(e.value)}
+            onChange={e => setSelectedFilterMission(e.value)}
           />
 
           <MultiSelect
@@ -175,7 +172,7 @@ const MyDatable: React.FC<LaunchProps> = ({
             optionLabel="name"
             placeholder="Upcoming/Past"
             showSelectAll
-            onChange={(e) => setSelectedFilterLatest(e.value)}
+            onChange={e => setSelectedFilterLatest(e.value)}
           />
         </div>
 
@@ -186,16 +183,16 @@ const MyDatable: React.FC<LaunchProps> = ({
 
   const handleAddFavorite = (launch: Launch) => {
     const favorites = JSON.parse(
-      localStorage.getItem("@spaceXFalcon:favorites") || "[]"
+      localStorage.getItem('@spaceXFalcon:favorites') || '[]',
     );
     favorites.push(launch);
     setFavorites(favorites);
-    localStorage.setItem("@spaceXFalcon:favorites", JSON.stringify(favorites));
+    localStorage.setItem('@spaceXFalcon:favorites', JSON.stringify(favorites));
 
     Swal.fire(
       `Successful ${launch.mission_name} launch favorite.`,
-      "",
-      "success"
+      '',
+      'success',
     );
   };
 
@@ -212,7 +209,7 @@ const MyDatable: React.FC<LaunchProps> = ({
     <div>
       <DataTable
         style={{
-          marginTop: "70px",
+          marginTop: '70px',
         }}
         ref={dt}
         value={releases}
@@ -237,13 +234,18 @@ const MyDatable: React.FC<LaunchProps> = ({
         sortMode="multiple"
         scrollable
         scrollHeight="flex"
+        {...rest}
       >
         {columns.map((column: any) => (
-          <Column field={column.value} header={column.name}></Column>
+          <Column
+            field={column.value}
+            header={column.name}
+            key={column.value}
+          ></Column>
         ))}
         <Column
-          headerStyle={{ width: "4rem", textAlign: "center" }}
-          bodyStyle={{ textAlign: "center", overflow: "visible" }}
+          headerStyle={{ width: '4rem', textAlign: 'center' }}
+          bodyStyle={{ textAlign: 'center', overflow: 'visible' }}
           body={actionBodyTemplate}
         />
       </DataTable>

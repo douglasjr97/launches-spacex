@@ -51,6 +51,9 @@
     ]
   },
   "devDependencies": {
-    "@types/styled-components": "^5.1.24"
+    "@types/styled-components": "^5.1.24",
+    "babel-jest": "^27.5.1",
+    "jest": "^27.5.1",
+    "jest-dom": "^4.0.0"
   }
 }

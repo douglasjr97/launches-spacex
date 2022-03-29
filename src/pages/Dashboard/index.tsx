@@ -16,7 +16,6 @@ const Dashboard: React.FC = () => {
     api
       .get('/launches')
       .then(response => {
-        console.log(response);
         response.data.map((release: Launch) => {
           release.launch_success = release.launch_success ? 'Success' : 'Fail';
           return null;

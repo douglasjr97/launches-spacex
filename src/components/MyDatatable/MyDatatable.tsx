@@ -54,11 +54,8 @@ const MyDatable: React.FC<LaunchProps> = ({
   const FilterData = (event: any) => {
     // Filtro por lançamento bem sucedido ou mal sucedido
     if (selectedFilterMission[0]) {
-      console.log('Filtro por missão');
-      console.log(selectedFilterMission);
       switch (selectedFilterMission[0].code) {
         case 1:
-          console.log(releases[0].launch_success);
           const releaseSuccess = releases.filter(
             launch => launch.launch_success === 'Success',
           );
@@ -72,14 +69,9 @@ const MyDatable: React.FC<LaunchProps> = ({
           break;
       }
     } else {
-      console.log('Filtro por missão descartado');
-
       if (selectDateRange[0] && selectDateRange[1]) {
-        console.log('Filtro por data');
         const releasesInInterval: Launch[] = [];
         releases.map(launch => {
-          console.log(selectDateRange[0]);
-          console.log(selectDateRange[1]);
           if (
             isAfter(new Date(launch.launch_date_local), selectDateRange[0]) &&
             isBefore(new Date(launch.launch_date_local), selectDateRange[1])
@@ -91,10 +83,8 @@ const MyDatable: React.FC<LaunchProps> = ({
 
         setReleases(releasesInInterval);
       } else {
-        console.log('Filtro por data descartado');
         //Filtro por Lançamento proximo ou passado
         if (selectedFilterLatest[0]) {
-          console.log('Filtro por proximo');
           const currentDate = new Date();
 
           switch (selectedFilterLatest[0].code) {
@@ -124,7 +114,6 @@ const MyDatable: React.FC<LaunchProps> = ({
               break;
           }
         } else {
-          console.log('Filtro por lançamento descartado');
         }
       }
     }

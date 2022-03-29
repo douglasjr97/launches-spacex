@@ -35,7 +35,7 @@ const Favorites: React.FC<LaunchProps> = ({
             <OrderList
               value={releases}
               itemTemplate={FavoriteItem}
-              header="Favoritos"
+              header="Favorites"
             ></OrderList>
           </div>
         </div>
